@@ -99,4 +99,38 @@ def realign_crit(matrix):
         return False
     
 
+#construction of bell states
+
+import numpy as np
+
+# Define the standard vectors
+standard_vectors = [
+    np.array([1, 0, 0], dtype=complex),
+    np.array([0, 1, 0], dtype=complex),
+    np.array([0, 0, 1], dtype=complex),
+]
+stvec = standard_vectors
+
+# Define the bell_con function
+def bell_con(m=0, n=0):
+    # Initialize `ten` as a 3x3 matrix of zeros
+    ten = np.zeros(9, dtype=complex)
+    
+    # Define omega as the cube root of unity
+    omega = np.exp(2 * np.pi * 1j / 3)
+
+    # Iterate and compute the Bell state
+    for k in range(3):
+        prod = omega**(n * k) * np.kron(stvec[k], stvec[(k + m) % 3])
+        ten += prod  # Accumulate the sum
+    
+    return ten
+
+#def bell_con(m,n):
+#    
+#    omega = np.exp(2*np.pi*1j)
 #
+#    for k in range(3):
+#        bell = 1/np.sqrt(3) * np.sum(omega**(n*k)*np.tensordot(stvec[k],stvec[(k+m)%3],axes=0))
+#
+#    return bell_states

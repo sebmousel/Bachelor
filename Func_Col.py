@@ -111,7 +111,8 @@ standard_vectors = [
 ]
 stvec = standard_vectors
 
-# Define the bell_con function
+# Define construction of bell states function
+
 def bell_con(m=0, n=0):
     # Initialize `ten` as a 3x3 matrix of zeros
     ten = np.zeros(9, dtype=complex)
@@ -124,13 +125,40 @@ def bell_con(m=0, n=0):
         prod = omega**(n * k) * np.kron(stvec[k], stvec[(k + m) % 3])
         ten += prod  # Accumulate the sum
     
-    return ten
+    return ten/np.sqrt(3)
 
-#def bell_con(m,n):
-#    
-#    omega = np.exp(2*np.pi*1j)
-#
-#    for k in range(3):
-#        bell = 1/np.sqrt(3) * np.sum(omega**(n*k)*np.tensordot(stvec[k],stvec[(k+m)%3],axes=0))
-#
-#    return bell_states
+def bell_state():
+
+    bell_states = []
+    
+    for i in range(3):
+        for h in range(3):
+            bell_states.append(bell_con(i,h))
+    return bell_states
+
+
+#define indices martix for state rho_b
+
+def dkl(x):
+    d = [
+        [2*x,0,1/3 - x],
+        [0,x,1/3 - x],
+        [0,0,1/3 - x]
+    ]
+    return d
+
+
+#define rho_b
+
+def rhob(x):
+
+    d = dkl(x):
+    bell_states = bell_state()
+
+    sum = 0
+
+    for m in range(3):
+        for n in range(3):
+            sum += d[m][n]*bell_states[3*m+n]
+
+    return sum   

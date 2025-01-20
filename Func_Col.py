@@ -152,7 +152,7 @@ def dkl(x):
 
 def rhob(x):
 
-    d = dkl(x):
+    d = dkl(x)
     bell_states = bell_state()
 
     sum = 0
@@ -161,4 +161,96 @@ def rhob(x):
         for n in range(3):
             sum += d[m][n]*bell_states[3*m+n]
 
-    return sum   
+    return sum
+
+#define Lorentz boost function to get particle in rest frame to frame O
+
+V = [
+    np.array([-1, 1j, 0]),
+    np.array([0, 0, np.sqrt(2)]),
+    np.array([1, 1j, 0])
+]
+
+import numpy as np
+
+def lorentz_boost_k(momentum, mass = 1, energy = 1):
+    """
+    Compute the Lorentz boost matrix for a given 3-momentum and mass.
+
+    Parameters:
+        momentum (numpy.ndarray): A 3-element array representing the spatial momentum (px, py, pz).
+        mass (float): The mass of the particle.
+
+    Returns:
+        numpy.ndarray: A 4x4 Lorentz transformation matrix.
+    """
+    # Ensure momentum is a numpy array
+    momentum = np.asarray(momentum, dtype=float)
+    
+    # Compute energy component k0 (assuming natural units where c=1)
+    k0 = momentum[0]
+    mom = momentum[1:]
+    
+    # Construct the 3x3 spatial part of the boost matrix
+    k_outer = np.outer(mom, mom)  # Outer product: k ⊗ k^T
+    identity_3x3 = np.eye(3)  # 3x3 identity matrix
+    
+    # Compute the spatial block of the matrix
+    spatial_block = (mass * identity_3x3) + k_outer / (mass + k0)
+    
+    # Assemble the full Lorentz boost matrix
+    boost_matrix = np.zeros((4, 4))
+    boost_matrix[0, 0] = k0 / mass
+    boost_matrix[0, 1:] = mom / mass  # First row (excluding time component)
+    boost_matrix[1:, 0] = mom / mass  # First column (excluding time component)
+    boost_matrix[1:, 1:] = spatial_block
+    
+    return boost_matrix
+
+#define Lorentz boost to boost particle with certain velocity
+
+def lam_boost(e, xi):
+    """
+    Compute the Lorentz boost matrix Λ(e, ξ) given a unit direction vector e and rapidity ξ.
+
+    Parameters:
+        e (numpy.ndarray): A 3-element unit vector representing the boost direction.
+        xi (float): The rapidity of the boost.
+
+    Returns:
+        numpy.ndarray: A 4x4 Lorentz transformation matrix.
+    """
+    # Ensure e is a numpy array and normalize it to be a unit vector
+    e = np.asarray(e, dtype=float)
+    e = e / np.linalg.norm(e)
+
+    # Compute hyperbolic functions of rapidity
+    cosh_xi = np.cosh(xi)
+    sinh_xi = np.sinh(xi)
+
+    # Compute the outer product of e (e ⊗ e^T)
+    outer_product = np.outer(e, e)
+
+    # Construct the spatial part of the matrix
+    spatial_block = np.eye(3) + (cosh_xi - 1) * outer_product
+
+    # Assemble the full Lorentz boost matrix
+    boost_matrix = np.zeros((4, 4))
+    boost_matrix[0, 0] = cosh_xi
+    boost_matrix[0, 1:] = e * sinh_xi  # First row (excluding time component)
+    boost_matrix[1:, 0] = e * sinh_xi  # First column (excluding time component)
+    boost_matrix[1:, 1:] = spatial_block
+
+    return boost_matrix
+
+
+#define wigner rotation
+
+def wigner(e, xi, momentum, mass = 1, energy = 1):
+
+    step1 = np.matmul(lam_boost(e, xi),momentum)
+    step2 = lorentz_boost_k(step1)
+    step3 = np.matmul(lam_boost(e,xi),lorentz_boost_k(momentum))
+    
+    return np.matmul(np.linalg.inv(step2),step3)
+     

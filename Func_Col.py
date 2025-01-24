@@ -161,15 +161,15 @@ def rhob(x):
         for n in range(3):
             sum += d[m][n]*bell_states[3*m+n]
 
-    return sum
+    return np.outer(sum,sum.conjugate())
 
 #define Lorentz boost function to get particle in rest frame to frame O
 
-V = [
+V = np.array([
     np.array([-1, 1j, 0]),
     np.array([0, 0, np.sqrt(2)]),
-    np.array([1, 1j, 0])
-]
+    np.array([1, 1j, 0])]
+)
 
 import numpy as np
 
@@ -253,4 +253,6 @@ def wigner(e, xi, momentum, mass = 1, energy = 1):
     step3 = np.matmul(lam_boost(e,xi),lorentz_boost_k(momentum))
     
     return np.matmul(np.linalg.inv(step2),step3)
-     
+
+def D(e, xi, momentum, mass = 1, energy = 1):
+    return np.matmul(V / np.sqrt(2),np.matmul(wigner(e, xi, momentum, mass = 1, energy = 1),V.conjugate().transpose() / np.sqrt(2)))

@@ -59,7 +59,7 @@ def realign(matrix, blocksize = 3):
     
     for block in blocks:
         
-        B = np.zeros(b*b)
+        B = np.zeros(b*b,dtype = np.complex128)
         list = []
         
         for i in range(b):
@@ -67,7 +67,7 @@ def realign(matrix, blocksize = 3):
                 list.append(block[j][i])
 
         for l in range(len(list)):
-            B[l] = np.asarray(list)[l]
+            B[l] = np.asarray(list, dtype = np.complex128)[l]
         
         newblocks = np.append(newblocks, B)
     
@@ -101,50 +101,50 @@ def realign_crit(matrix):
 
 #construction of bell states
 
-import numpy as np
-
-# Define the standard vectors
-standard_vectors = [
-    np.array([1, 0, 0], dtype=complex),
-    np.array([0, 1, 0], dtype=complex),
-    np.array([0, 0, 1], dtype=complex),
-]
-stvec = standard_vectors
-
 # Define construction of bell states function
 
-def bell_con(m=0, n=0):
-    # Initialize `ten` as a 3x3 matrix of zeros
-    ten = np.zeros(9, dtype=complex)
-    
-    # Define omega as the cube root of unity
-    omega = np.exp(2 * np.pi * 1j / 3)
+d = 3  # Dimension for qutrits
+omega = np.exp(2j * np.pi / d)  # Primitive root of unity
 
-    # Iterate and compute the Bell state
-    for k in range(3):
-        prod = omega**(n * k) * np.kron(stvec[k], stvec[(k + m) % 3])
-        ten += prod  # Accumulate the sum
-    
-    return ten/np.sqrt(3)
+# Define the basis states |0⟩, |1⟩, |2⟩
+basis_states = np.eye(d)
 
-def bell_state():
+# Define the Weyl operator W_{k,l}
+def weyl_operator(k, l, d=3):
+    W = np.zeros((d, d), dtype=complex)
+    for j in range(d):
+        W += (omega**(j * k)) * np.outer(basis_states[j], basis_states[(j + l) % d])
+    return W
+
+# Define the reference state |Ω0,0⟩ = (|00⟩ + |11⟩ + |22⟩)/√3
+Omega_00 = (1/np.sqrt(3)) * (np.kron(basis_states[0], basis_states[0]) + 
+                             np.kron(basis_states[1], basis_states[1]) + 
+                             np.kron(basis_states[2], basis_states[2]))
+
+# Generate the entangled states |Ω_{k,l}⟩ = W_{k,l} ⊗ I_3 |Ω_{0,0}⟩
+def generate_entangled_state(k, l, d=3):
+    W_kl = weyl_operator(k, l, d)
+    W_kl_kron = np.kron(W_kl, np.eye(d))  # Apply W_{k,l} on the first system
+    return W_kl_kron @ Omega_00
+
+def gen_bell(d=3):
 
     bell_states = []
-    
-    for i in range(3):
-        for h in range(3):
-            bell_states.append(bell_con(i,h))
-    return bell_states
 
+    for k in range(d):
+        for l in range(d):
+            bell_states.append(generate_entangled_state(k,l).reshape(3,3))
+
+    return bell_states
 
 #define indices martix for state rho_b
 
 def dkl(x):
-    d = [
-        [2*x,0,1/3 - x],
+    d = np.array([
+        [2*x, 0,1/3- x],
         [0,x,1/3 - x],
         [0,0,1/3 - x]
-    ]
+    ])
     return d
 
 
@@ -152,24 +152,22 @@ def dkl(x):
 
 def rhob(x):
 
-    d = dkl(x)
-    bell_states = bell_state()
+    bell_states = gen_bell()
 
-    sum = 0
+    sum = np.zeros((3,3),dtype=np.complex128)
 
     for m in range(3):
         for n in range(3):
-            sum += d[m][n]*bell_states[3*m+n]
+            sum += dkl(x)[m][n]*bell_states[3*m+n]
 
     return np.outer(sum,sum.conjugate())
 
 #define Lorentz boost function to get particle in rest frame to frame O
 
 V = np.array([
-    np.array([-1, 1j, 0]),
-    np.array([0, 0, np.sqrt(2)]),
-    np.array([1, 1j, 0])]
-)
+        [-1, 1j, 0],
+        [0, 0, np.sqrt(2)],
+        [1, 1j, 0]])
 
 import numpy as np
 

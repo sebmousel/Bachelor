@@ -204,7 +204,8 @@ def wigner(e, xi, momentum, mass = 1, energy = 1):
     lam_k = np.matmul(lam_boost(e, xi),momentum)
     lrz_lam_k = lorentz_boost_k(lam_k)
     
-    return np.matmul(np.linalg.inv(lrz_lam_k),np.matmul(lam_boost(e,xi),lorentz_boost_k(momentum)))
+    wigner = np.matmul(np.linalg.inv(lrz_lam_k),np.matmul(lam_boost(e,xi),lorentz_boost_k(momentum)))
+    return np.linalg.qr(wigner)[0][1:,1:]
 
 def D(e, xi, momentum, mass = 1, energy = 1):
     return np.matmul(V,np.matmul(wigner(e, xi, momentum),V.conjugate().transpose()))

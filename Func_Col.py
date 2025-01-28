@@ -99,6 +99,12 @@ def realign_crit(matrix):
         return False
     
 
+#define normalisation
+
+def nrm(vector):
+    return vector / np.linalg.norm(vector)
+
+
 #construction of bell states
 
 #define indices martix for state rho_b
@@ -123,7 +129,7 @@ def generate_bell_states():
             omega_0_0 = np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]) / np.sqrt(3)
             # Generate |Ω_k,l⟩ from |Ω_0,0⟩
             omega_k_l = np.dot(np.kron(W_k_l, np.eye(3)), omega_0_0)
-            omega_states.append(omega_k_l)
+            omega_states.append(nrm(omega_k_l))
     return omega_states
 
 
@@ -207,5 +213,98 @@ def wigner(e, xi, momentum, mass = 1, energy = 1):
     wigner = np.matmul(np.linalg.inv(lrz_lam_k),np.matmul(lam_boost(e,xi),lorentz_boost_k(momentum)))
     return np.linalg.qr(wigner)[0][1:,1:]
 
+
+#define the 3dim D matrix
+
 def D(e, xi, momentum, mass = 1, energy = 1):
     return np.matmul(V,np.matmul(wigner(e, xi, momentum),V.conjugate().transpose()))
+
+
+#define the values for realignment plot
+
+def realign_val_12_21(e, xi, mom1, mom2):
+
+    val = []
+
+    Dmat = [None,
+            D(e,xi,mom1),
+            D(e,xi,mom2)]
+
+    for n in np.linspace(0, 1/3 , 1000):
+
+        sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
+
+        for i,j in [(1,2),(2,1)]:
+
+                sum += (1/2) * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
+                        )
+        
+        val.append(realign_log(sum/np.trace(sum)))
+    
+    return val
+
+
+#define momentum dependant of theta
+
+def mom_theta(theta,mom1,mom2):
+
+    ten1 = np.kron(mom1,mom2)
+    ten2 = np.kron(mom2,mom1)
+
+    momtheta = np.cos(theta) * ten1 + np.sin(theta) * ten2
+    momtheta = np.outer(momtheta,momtheta)
+
+    return momtheta
+
+#define values for values of realignment with momenta entanglement dependant of theta version 1
+
+def realign_val_theta(e,xi,mom1,mom2,theta):
+
+    val = []
+
+    Dmat = [None,
+            D(e,xi,mom1),
+            D(e,xi,mom2)]
+
+    for n in np.linspace(0, 1/3 , 1000):
+
+        sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
+
+        for i,j in [(1,1),(1,2),(2,1),(2,2)]:
+            sum += theta[i][j] * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
+                        )
+                
+        val.append(realign_log(sum / np.trace(sum)))
+    
+    return val
+
+
+#define values for values of realignment with momenta entanglement dependant of theta version 2
+
+def realign_val_theta2(e,xi,mom1,mom2,theta):
+
+    val = []
+
+    Dmat = [None,
+            D(e,xi,mom1),
+            D(e,xi,mom2)]
+
+    for n in np.linspace(0, 1/3 , 1000):
+
+        sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
+
+        for i,j in [(1,2),(2,1)]:
+            if (i,j) == (1,2):
+                sum += np.cos(theta)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
+                        )
+            else:
+                sum += np.sin(theta)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
+                        )
+                
+        val.append(realign_log(sum / np.trace(sum)))
+    
+    return val

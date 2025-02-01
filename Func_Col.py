@@ -222,70 +222,36 @@ def D(e, xi, momentum, mass = 1, energy = 1):
 
 #define the values for realignment plot
 
-def realign_val_12_21(e, xi, mom1, mom2):
-
-    val = []
+def boosted_state1(e, xi, mom1, mom2,n):
 
     Dmat = [None,
             D(e,xi,mom1),
             D(e,xi,mom2)]
 
-    for n in np.linspace(0, 1/3 , 1000):
+    sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
 
-        sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
-
-        for i,j in [(1,2),(2,1)]:
-
-                sum += (1/2) * np.matmul(
-                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
-                        )
-        
-        val.append(realign_log(sum/np.trace(sum)))
-    
-    return val
-
-
-#define momentum dependant of theta
-
-def mom_theta(theta,mom1,mom2):
-
-    ten1 = np.kron(mom1,mom2)
-    ten2 = np.kron(mom2,mom1)
-
-    momtheta = np.cos(theta) * ten1 + np.sin(theta) * ten2
-    momtheta = np.outer(momtheta,momtheta)
-
-    return momtheta
-
-#define values for values of realignment with momenta entanglement dependant of theta version 1
-
-def realign_val_theta(e,xi,mom1,mom2,theta):
-
-    val = []
-
-    Dmat = [None,
-            D(e,xi,mom1),
-            D(e,xi,mom2)]
-
-    for n in np.linspace(0, 1/3 , 1000):
-
-        sum = np.zeros_like(rhob(n,generate_bell_states()),dtype=complex)
-
-        for i,j in [(1,1),(1,2),(2,1),(2,2)]:
-            sum += theta[i][j] * np.matmul(
-                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
+    for i,j in [(1,2),(2,1)]:
+        sum += (1/2) * np.matmul(
+                np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
                         )
                 
-        val.append(realign_log(sum / np.trace(sum)))
+    return sum
+
+def realign_val_12_21(e, xi, mom1, mom2,n):
+
+    val = []
+
+    for n in np.linspace(0, 1/3 , 1000):
+        
+        sum = boosted_state(e,xi,mom1,mom2,n)
+        val.append(realign_log(sum/np.trace(sum)))
     
     return val
 
 
 #define values for values of realignment with momenta entanglement dependant of theta version 2
 
-def realign_val_theta2(e,xi,mom1,mom2,theta):
-
-    val = []
+def boosted_state2(e, xi, mom1, mom2,theta):
 
     Dmat = [None,
             D(e,xi,mom1),
@@ -304,7 +270,40 @@ def realign_val_theta2(e,xi,mom1,mom2,theta):
                 sum += np.sin(theta)**2 * np.matmul(
                         np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
                         )
+
+def realign_val_theta2(e,xi,mom1,mom2,theta):
+
+    val = []
                 
         val.append(realign_log(sum / np.trace(sum)))
     
     return val
+
+def realign_general(e,xi,mom1,mom2,rho1,rho2,theta1,theta2,p):
+    
+    Dmat = [None,
+            D(e,xi,mom1),
+            D(e,xi,mom2)]
+    
+    sum1 = np.zeros_like(rhob(0.1,generate_bell_states()),dtype=complex)
+    sum2 = np.zeros_like(rhob(0.1,generate_bell_states()),dtype=complex)
+    
+    for i,j in [(1,2),(2,1)]:
+            if (i,j) == (1,2):
+                sum1 += np.cos(theta1)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho1,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
+            else:
+                sum1 += np.sin(theta1)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho1,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
+    
+    for i,j in [(1,2),(2,1)]:
+            if (i,j) == (1,2):
+                sum2 += np.cos(theta2)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho2,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
+            else:
+                sum1 += np.sin(theta2)**2 * np.matmul(
+                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho2,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
+
+    sum = p*sum1 + (1-p)*sum2
+    
+    return (realign_log(sum/np.trace(sum)))

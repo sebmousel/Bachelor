@@ -1,0 +1,72 @@
+%loads the class that provides the titlepage and some general packages.
+\documentclass{UniVieCS_Thesis} 
+
+%add the additional packages and macros that you want to use
+\input{packages_macros}
+
+% important update for glossaries, before document 
+\loadglsentries{C) Back Matter/acronyms.tex}
+\loadglsentries{C) Back Matter/glossary.tex} 
+\makeglossaries %https://www.overleaf.com/learn/latex/glossaries
+
+%shows fixme notes
+%\fxsetup{status=draft} % comment/delete this line if you want to your final output
+
+\usepackage[ngerman, british]{babel} %if changed to \usepackage[ngerman]{babel} "Table of contents" changes to "Inhaltsverzeichnis", "abstract" becomes "Zusammenfassung" and "references" is translated to "Literatur".
+
+
+%remove all the things you don't need and add all the things you need. you can also change the order of the elements at your will.
+\begin{document}
+
+    %Start with front matter
+    
+    %Choose the titlepage you want to use
+    %\input{A) Front Matter/titlepage} %Creates the titlepage
+    \input{A) Front Matter/titlepage_bsc} %Creates the titlepage
+    %\input{A) Front Matter/titlepage_phd} %Creates the titlepage
+
+
+	\frontmatter{}
+
+        \begingroup
+	\input{A) Front Matter/acknowledgements}%adds the aknowledgements
+	\input{A) Front Matter/abstracts} % adds the abstract
+	\input{A) Front Matter/kurzfassung} %adds the "Kurzfassung"in german.
+%	\endgroup
+    \microtypesetup{protrusion=false}
+    \tableofcontents{}
+    % Use an optional list of tables / figures / algorithms / listings(code).
+    %\listoftables 
+    %\listoffigures
+    %\cleardoublepage{}
+    %\listofalgorithms
+    %\addcontentsline{toc}{chapter}{List of Algorithms} 
+    %\cleardoublepage{}
+    %\lstlistoflistings
+    %\cleardoublepage{}
+    \microtypesetup{protrusion=true}
+    
+	%\pagebreak
+	
+	%add your chapters here
+	\mainmatter{}
+    \input{B) Chapters/0_Motivation}
+    
+	%add your sources in the bib file and change the style here
+    \bibliographystyle{IEEEtran}
+	\bibliography{bibliography}
+	
+	\printglossary[type=\acronymtype]
+    \printglossary
+
+    \cleardoublepage{}
+	\pagebreak
+	
+	%add your end matter here
+	\appendix{}
+
+	\input{C) Back Matter/appendix}
+	
+	
+	
+\end{document}

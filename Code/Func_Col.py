@@ -41,6 +41,8 @@ def get_dim(matrix):
 #create blocks from a matrix
 
 def blck(matrix,blocksize = 3):
+    if matrix is None:
+        raise ValueError("Error: matrix is None in realign_log() before calling SVD")
     blocks = []
     b = blocksize
     for i in range(b):
@@ -237,13 +239,13 @@ def boosted_state1(e, xi, mom1, mom2,n):
                 
     return sum
 
-def realign_val_12_21(e, xi, mom1, mom2,n):
+def realign_val_12_21(e, xi, mom1, mom2):
 
     val = []
 
     for n in np.linspace(0, 1/3 , 1000):
         
-        sum = boosted_state(e,xi,mom1,mom2,n)
+        sum = boosted_state1(e,xi,mom1,mom2,n)
         val.append(realign_log(sum/np.trace(sum)))
     
     return val
@@ -256,6 +258,8 @@ def boosted_state2(e, xi, mom1, mom2,theta):
     Dmat = [None,
             D(e,xi,mom1),
             D(e,xi,mom2)]
+    
+    matrix = []
 
     for n in np.linspace(0, 1/3 , 1000):
 
@@ -270,12 +274,17 @@ def boosted_state2(e, xi, mom1, mom2,theta):
                 sum += np.sin(theta)**2 * np.matmul(
                         np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rhob(n,generate_bell_states()),np.kron(Dmat[i].conj().T,Dmat[j].conj().T))
                         )
+                
+        matrix.append(sum)
+
+    return matrix
 
 def realign_val_theta2(e,xi,mom1,mom2,theta):
 
     val = []
-                
-        val.append(realign_log(sum / np.trace(sum)))
+
+    for m in boosted_state2(e,xi,mom1,mom2,theta):                
+        val.append(realign_log(m))
     
     return val
 
@@ -306,4 +315,19 @@ def realign_general(e,xi,mom1,mom2,rho1,rho2,theta1,theta2,p):
 
     sum = p*sum1 + (1-p)*sum2
     
-    return (realign_log(sum/np.trace(sum)))
+    return (realign_log(sum/np.trace(sum)), is_PPT(sum))
+
+
+#define reduction criterion
+
+def reduction(matrix):
+    
+    dim = get_dim(matrix)
+
+    if dim != (9,9):
+        raise ValueError("wrong dimension")
+
+    lmd = np.kron((np.ones(dim),np.real(np.trace(matrix)) - matrix),np.ones(dim))
+    eig = np.linalg.eigvalsh(lmd)
+
+    return np.any(eig < 0)

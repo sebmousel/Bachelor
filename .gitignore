@@ -1,0 +1,29 @@
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.acn
+*.glo
+*.gls
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.idx
+*.ilg
+*.ind
+*.pdfa.xmpi
+
+# Other generated files
+main.pdf
+
+# TexShop backup files
+*.bak
+
+# LaTeX editor temporary files
+*.swp
+*.swo

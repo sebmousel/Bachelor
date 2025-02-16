@@ -188,8 +188,11 @@ def lam_boost(e, xi):
     e = np.asarray(e, dtype=float)
     e = e / np.linalg.norm(e)
 
-    cosh_xi = np.cosh(xi)
-    sinh_xi = np.sinh(xi)
+    if np.isscalar(xi):
+        cosh_xi = np.cosh(xi)
+        sinh_xi = np.sinh(xi)
+    else:
+        raise ValueError(f"xi must be a scalar value. xi is rn {xi}")
 
     outer_product = np.outer(e, e)
 
@@ -320,14 +323,3 @@ def realign_general(e,xi,mom1,mom2,rho1,rho2,theta1,theta2,p):
 
 #define reduction criterion
 
-def reduction(matrix):
-    
-    dim = get_dim(matrix)
-
-    if dim != (9,9):
-        raise ValueError("wrong dimension")
-
-    lmd = np.kron((np.ones(dim),np.real(np.trace(matrix)) - matrix),np.ones(dim))
-    eig = np.linalg.eigvalsh(lmd)
-
-    return np.any(eig < 0)

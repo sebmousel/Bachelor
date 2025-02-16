@@ -109,11 +109,7 @@
 				\hspace*{10.17cm}
 				%University logo
 				\includegraphics[width=0.45\linewidth]{figures/univie.jpeg} \par
-				\flushleft
-    \vspace*{-2.7cm}
-				\hspace*{-1cm}
-                \includegraphics[width=0.3\linewidth]{figures/VERA.jpeg}\par
-    \vspace{1cm}
+				
 			    \vspace{1cm}
 				\centering 	
 				

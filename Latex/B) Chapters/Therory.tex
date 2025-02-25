@@ -1,4 +1,80 @@
-\chapter{Therory}
-\section{section}
+\chapter{Theory}
 
-iu
+\section{Quantum States}
+
+Pure states, Mixed States, Entanglement
+
+\section{Bipartite systems}
+
+bipartite
+
+\section{Magic simplex}
+
+Magic simplex, Weyl operator
+
+\begin{equation}
+    \mathcal{M}_3 \equiv \left\{\rho = 2 \sum_{k,l=0} c_{k,l} P_{k,l} \mid 2 \sum_{k,l=0} c_{k,l} = 1, \, c_{k,l} \geq 0\right\}
+\end{equation}
+
+\section{Detection criterion}
+
+\begin{equation}
+    \text{Realignment}(\rho_{AB}) = \log_2({\sum_{i}\sigma_i(\tilde{\rho}_{AB})})
+\end{equation}
+
+PPT, Realignment, Entanglement Witness
+
+\section{Lorentz Boost}
+
+\begin{equation}
+    L_k = \frac{1}{m}\begin{pmatrix}
+        k^0 & \textbf{k}^T \\
+        \textbf{k} & m \mathds{1}_3+\frac{\textbf{k}\otimes \textbf{k}^T}{m+k^0} 
+        \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+    U(\Lambda)\ket{k,\sigma} = \mathcal{D}_{\lambda\sigma}(R(\Lambda,k))\ket{\Lambda k,\lambda}
+\end{equation}
+
+\begin{equation}
+    \mathcal{D}(R) = V \vdot R \vdot V^\dagger, \quad V^\dagger\vdot V = \mathds{1}_3
+\end{equation}
+
+\begin{equation}
+    V = \frac{1}{\sqrt{2}}\begin{pmatrix}
+        -1 & i & 0 \\
+        0 & 0 & \sqrt{2} \\
+        1 & i & 0 
+        \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+    \rho = \sum \rho_{\sigma \lambda, \sigma' \lambda'} \ket{k_m, k_n ; \sigma, \lambda} \bra{k_{m'}, k_{n'} ; \sigma', \lambda'}
+\end{equation}
+
+\begin{equation}
+    \rho' = \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right] \rho \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right]^\dagger
+\end{equation}
+
+\begin{equation}
+    \Lambda(e, \xi) =
+    \begin{pmatrix}
+        \cosh \xi & e^T \sinh \xi \\
+        e \sinh \xi & 3 + (\cosh \xi - 1) e \otimes e^T
+    \end{pmatrix}
+\end{equation}
+
+\begin{equation}
+    \rho = \ket{\psi^{mom}}\bra{\psi^{mom}} \otimes (\sum_{i} p_i\ket{\phi_i^{spin}}\bra{\phi_i^{spin}}) \equiv \ket{\psi^{mom}}\bra{\psi^{mom}} \otimes \rho_{spin}
+\end{equation}
+
+\begin{equation}
+    \ket{\psi^{mom}} = \sum_{i,j=1}^{2}a_{ij}\ket{k_i,k_j}, \quad \sum_{i,j=1}^{2}|a_{ij}|^2 = 1.
+\end{equation}
+
+\begin{equation}
+    \rho^\prime_{spin} = \text{Tr}^{mom}(\rho^\prime) = \sum_{i,j=1}^{2}|a_{ij}|[D^T(\Lambda,k_i) \otimes D^T(\Lambda,k_j)]\rho_{spin}[D^*(\Lambda,k_i) \otimes D^*(\Lambda,k_j)]
+\end{equation}
+
+Lorentz Boost

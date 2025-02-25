@@ -3,6 +3,16 @@
 %Package to show algorithms
 \usepackage{algorithm2e}
 
+%Package for unity 1
+\usepackage{bbold}
+\usepackage{dsfont}
+
+%Package to write brakets
+\usepackage{mathtools}
+\DeclarePairedDelimiter\bra{\langle}{\rvert}
+\DeclarePairedDelimiter\ket{\lvert}{\rangle}
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1\,\delimsize\vert\,\mathopen{}#2}
+
 %package to work with glossaries
 \usepackage[acronym]{glossaries}
 \usepackage{lipsum}

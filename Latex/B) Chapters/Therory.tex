@@ -2,29 +2,58 @@
 
 \section{Quantum States}
 
-Pure states, Mixed States, Entanglement
-
-\section{Bipartite systems}
-
-bipartite
-
-\section{Magic simplex}
-
-Magic simplex, Weyl operator
+Pure states:
 
 \begin{equation}
-    \mathcal{M}_3 \equiv \left\{\rho = 2 \sum_{k,l=0} c_{k,l} P_{k,l} \mid 2 \sum_{k,l=0} c_{k,l} = 1, \, c_{k,l} \geq 0\right\}
+    \rho = \ket{\psi}\bra{\psi}
 \end{equation}
 
-\section{Detection criterion}
+Mixed States:
+
+\begin{equation}
+    \rho = \sum_{i} p_i \ket{\psi_i}\bra{\psi_i}
+\end{equation}
+
+General States:
+
+\begin{itemize}
+    \item Tr($\rho$) <= 1
+    \item $\rho$ >= 1
+\end{itemize}
+
+\section{Bipartite States}
+
+Separability: $\rho_{AB} = \sum_{i} p_i \rho_A \otimes \rho_B$ and $\sum_{i} p_i = 1$
+
+For 2$\otimes$2 and 2$\otimes$3, states can be described using the Peres-Horodecki Positive Partial Transpose criterion, short PPT.
+In these lower dimensions, PPT is sufficient and necessary to characterize a quantum state.\\
+
+For higher dimensions, PPT is no longer sufficient. There arises the existence of entangled states that are also positive semidefinite, which are called bound entangled states.
+For these cases, additional criterions can be used to help characterize these quantum states. One of these criterion is the realignment criterion. First we define:
 
 \begin{equation}
     \text{Realignment}(\rho_{AB}) = \log_2({\sum_{i}\sigma_i(\tilde{\rho}_{AB})})
 \end{equation}
 
-PPT, Realignment, Entanglement Witness
+Here $\tilde{\rho}$ represents the realigned densitiy matrix $\rho_{AB}$ (cite the paper for realignment). $\sum_i\sigma_i(\tilde{\rho}_{AB})$ are the singular values of the realigned matrix.
+It says that if the value of Realignment($\rho_{AB}$) > 0, then this state is entangled. However there exist entangled states that fulfill Realignment($\rho$) < 0.
+
+Entanglement Witness
+
+\section{Magic simplex}
+
+\begin{equation}
+    \mathcal{M}_3 \equiv \left\{\rho = 2 \sum_{k,l=0} c_{k,l} P_{k,l} \mid 2 \sum_{k,l=0} c_{k,l} = 1, \, c_{k,l} \geq 0\right\}
+\end{equation}
+
+$P_{k,l}$ = $\ket{\Omega_{k,l}}\bra{\Omega_{k,l}}$, $\ket{\Omega_{k,l}}$ being the bell states that can be generated from $\ket{\Omega_{0,0}} = \frac{1}{\sqrt{3}}(\ket{00} + \ket{11} + \ket{22})$ 
+using the Weyl-operator. $\ket{\Omega_{k,l}} = W_{k,l} \otimes \mathbb{1}_3 \ket{\Omega_{0,0}}$. Here $W_{k,l} \equiv \sum_{j=0}^{2}\omega^{j\cdot k}\ket{j}\bra{j+l}$ and $\omega = e^{\frac{2\pi\imath}{3}}$.
 
 \section{Lorentz Boost}
+
+\begin{equation}
+    \braket{k,\sigma}{k',\sigma'} = 2 k^0 \delta^3(\textbf{k} - \textbf{k'} \cdot \delta_{\sigma\sigma'})
+\end{equation}
 
 \begin{equation}
     L_k = \frac{1}{m}\begin{pmatrix}
@@ -61,7 +90,7 @@ PPT, Realignment, Entanglement Witness
     \Lambda(e, \xi) =
     \begin{pmatrix}
         \cosh \xi & e^T \sinh \xi \\
-        e \sinh \xi & 3 + (\cosh \xi - 1) e \otimes e^T
+        e \sinh \xi & \mathds{1}_3 + (\cosh \xi - 1) e \otimes e^T
     \end{pmatrix}
 \end{equation}
 

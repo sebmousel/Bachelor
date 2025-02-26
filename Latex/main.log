@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2025.2.5)  25 FEB 2025 15:52
+This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2025.2.5)  26 FEB 2025 15:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1299,22 +1299,32 @@ chapter 1.
 
 ]
 chapter 2.
-LaTeX Font Info:    Trying to load font information for U+dsrom on input line 3
-2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+
+ []
+
+[3]
+LaTeX Font Info:    Trying to load font information for U+bbold on input line 5
+0.
+
+(C:\Users\Sebastian\AppData\Local\Programs\MiKTeX2\tex/latex/bbold\ubbold.fd)
+LaTeX Font Info:    Trying to load font information for U+dsrom on input line 6
+1.
 
 (C:\Users\Sebastian\AppData\Local\Programs\MiKTeX2\tex/latex/doublestroke\udsro
 m.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 )
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/dsrom/m/n/10.95'
-(microtype)             (new value: 10.95pt) on input line 32.
+(microtype)             (new value: 10.95pt) on input line 61.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/dsrom/m/n/8'
-(microtype)             (new value: 8.0pt) on input line 32.
+(microtype)             (new value: 8.0pt) on input line 61.
 Package microtype Info: Fixing zero \fontdimen 6 for font `U/dsrom/m/n/6'
-(microtype)             (new value: 6.0pt) on input line 32.
+(microtype)             (new value: 6.0pt) on input line 61.
 
-B) Chapters/Therory.tex:41: Undefined control sequence.
-l.41     \mathcal{D}(R) = V \vdot
+B) Chapters/Therory.tex:70: Undefined control sequence.
+l.70     \mathcal{D}(R) = V \vdot
                                   R \vdot V^\dagger, \quad V^\dagger\vdot V ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1322,8 +1332,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-B) Chapters/Therory.tex:41: Undefined control sequence.
-l.41     \mathcal{D}(R) = V \vdot R \vdot
+B) Chapters/Therory.tex:70: Undefined control sequence.
+l.70     \mathcal{D}(R) = V \vdot R \vdot
                                           V^\dagger, \quad V^\dagger\vdot V ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1331,8 +1341,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-B) Chapters/Therory.tex:41: Undefined control sequence.
-l.41 ...ot R \vdot V^\dagger, \quad V^\dagger\vdot
+B) Chapters/Therory.tex:70: Undefined control sequence.
+l.70 ...ot R \vdot V^\dagger, \quad V^\dagger\vdot
                                                    V = \mathds{1}_3
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1340,7 +1350,7 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[3]) (B) Chapters/Methods.tex [4]
+) (B) Chapters/Methods.tex [4]
 chapter 3.
 ) (B) Chapters/Results.tex [5
 
@@ -1393,12 +1403,12 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 ### semi simple group (level 1) entered at line 31 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 29174 strings out of 410532
- 502802 string characters out of 2812285
- 1172894 words of memory out of 3000000
- 49888 multiletter control sequences out of 15000+600000
- 515390 words of font info for 70 fonts, out of 8000000 for 9000
+ 29200 strings out of 410532
+ 503317 string characters out of 2812285
+ 1176894 words of memory out of 3000000
+ 49905 multiletter control sequences out of 15000+600000
+ 516311 words of font info for 74 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 122i,10n,120p,10946b,2056s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 122i,10n,120p,10946b,2062s stack positions out of 10000i,1000n,20000p,200000b,80000s
 
 Output written on main.pdf (19 pages).

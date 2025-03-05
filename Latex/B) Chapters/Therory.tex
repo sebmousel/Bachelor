@@ -1,36 +1,33 @@
 \chapter{Theory}
 
-\section{Quantum States}
 
-Pure states:
+\section{Separability and Entanglement}
 
-\begin{equation}
-    \rho = \ket{\psi}\bra{\psi}
-\end{equation}
+Separability and entanglement are key concepts in quantum mechanics that describe the relationships between quantum states of composite systems. A separable state is one where the state of the composite system can be 
+expressed as a product of the states of its individual subsystems, indicating that the subsystems are independent and uncorrelated. Separable states can be written as $\rho_{AB} = \sum_{i} p_i \rho_A \otimes \rho_B$ and $\sum_{i} p_i = 1$
 
-Mixed States:
+n contrast, entanglement occurs when the state of the composite system cannot be 
+factored into individual states, meaning the subsystems are interdependent and correlated in a way that classical systems cannot be. Entangled states exhibit unique properties, such as non-local correlations, which have 
+profound implications for quantum information theory and technologies like quantum computing and cryptography, where entanglement serves as a resource for performing tasks beyond classical capabilities.
 
-\begin{equation}
-    \rho = \sum_{i} p_i \ket{\psi_i}\bra{\psi_i}
-\end{equation}
-
-General States:
-
-\begin{itemize}
-    \item Tr($\rho$) <= 1
-    \item $\rho$ >= 1
-\end{itemize}
-
-\section{Bipartite States}
-
-Separability: $\rho_{AB} = \sum_{i} p_i \rho_A \otimes \rho_B$ and $\sum_{i} p_i = 1$
+\subsection{PPT criterion}
 
 For 2$\otimes$2 and 2$\otimes$3, states can be described using the Peres-Horodecki Positive Partial Transpose criterion, short PPT.
-This criterion is satisfied by the state $\rho$ when its partial transpose $\rho^{T_B}$ has only non-negative eigenvalues.
+The partial transpose is defined as:
+
+\begin{equation}
+    \rho^{T_B} = \sum_{ijkl} p_{kl}^{ij} \ket{i}\bra{j} \otimes (\ket{k}\bra{l})^T = \sum_{ijkl} p_{kl}^{ij} \ket{i}\bra{j} \otimes \ket{l}\bra{k} = \sum_{ijkl} p_{lk}^{ij} \ket{i}\bra{j} \otimes \ket{k}\bra{l}
+\end{equation}
+
+This criterion is satisfied by the state $\rho$ when its partial transpose $\rho^{T_B}$ has only non-negative eigenvalues, and we know that $\rho$ is separable. If the crtierion is not satisfied, $\rho$ has to be entangled.
+
 In these lower dimensions, PPT is sufficient and necessary to characterize a quantum state.\\
+
+\subsection{Realignment criterion}
 
 For higher dimensions, however, PPT is no longer sufficient. There arises the existence of entangled states that are also positive semidefinite, which are called bound entangled states.
 For these cases, additional criterions can be used to help characterize these quantum states. One of these criterion is the realignment criterion. First we define $Realignment$ such as:
+
 
 \begin{equation}
     \text{Realignment}(\rho_{AB}) = \log_2({\sum_{i}\sigma_i(\tilde{\rho}_{AB})})
@@ -47,24 +44,26 @@ The magic simplex is defined as:
     \mathcal{M}_3 \equiv \left\{\rho = 2 \sum_{k,l=0} c_{k,l} P_{k,l} \mid 2 \sum_{k,l=0} c_{k,l} = 1, \, c_{k,l} \geq 0\right\}
 \end{equation}
 
-$P_{k,l}$ = $\ket{\Omega_{k,l}}\bra{\Omega_{k,l}}$ with $\ket{\Omega_{k,l}}$ being the Bell states that can be generated from $\ket{\Omega_{0,0}} = \frac{1}{\sqrt{3}}(\ket{00} + \ket{11} + \ket{22})$ 
+$P_{k,l}$ = $\ket{\Omega_{k,l}}\bra{\Omega_{k,l}}$ with $\ket{\Omega_{k,l}}$ being the Bell states of two qutrits that can be generated from $\ket{\Omega_{0,0}} = \frac{1}{\sqrt{3}}(\ket{00} + \ket{11} + \ket{22})$ 
 using the Weyl-operator. $\ket{\Omega_{k,l}} = W_{k,l} \otimes \mathbb{1}_3 \ket{\Omega_{0,0}}$. Here $W_{k,l} \equiv \sum_{j=0}^{2}\omega^{j\cdot k}\ket{j}\bra{j+l}$ and $\omega = e^{\frac{2\pi\imath}{3}}$.
 
-\section{Lorentz Boost}
+\section{Quantum States under Lorentz Boost}
 
 For the purpose of this work, we consider a bipartite system of two massive, relativistic spin-1 particles. Their four-momentum operator $\ket{k,\sigma}$ with the four-momentum $k = (k^0,\textbf{k})$ and $k^2 = k^0^2 - \textbf{k}^2 = m^2$ 
 and the spin component measured along the z-axis $\sigma = -1,0,1$.
 
-We assume the Minkowski tensor $\nu = (1,-1,-1,-1)$, use natural units i.e. $c = \hbar = 1$ and the Lorentz covariant normalization: 
+We assume the Minkowski tensor $\eta = (1,-1,-1,-1)$, use natural units i.e. $c = \hbar = 1$ and the Lorentz covariant normalization: 
 
 \begin{equation}
     \braket{k,\sigma}{k',\sigma'} = 2 k^0 \delta^3(\textbf{k} - \textbf{k'} \cdot \delta_{\sigma\sigma'})
 \end{equation}
 
+\baselineskip
+
 The vectors $\ket{k,\sigma}$ can be derived from the standard vector $\ket{\tilde{k},\sigma}$, where $\tilde{k} = m(1,0,0,0)$ represents the four-momentum of the particle in its rest frame. 
 The transformation is given by $\ket{k,\sigma} = U(L_k)\ket{\tilde{k},\sigma}$Here, $L_k$ is the standard Lorentz boost defined by the relations $k = L_k\tilde{k}$ and $L_{\tilde{k}} = \mathds{1}_4$.
 The explicit form of the boost $L_k$ is:
-
+\\
 \begin{equation}
     L_k = \frac{1}{m}\begin{pmatrix}
         k^0 & \textbf{k}^T \\
@@ -75,8 +74,8 @@ The explicit form of the boost $L_k$ is:
 Using the Wigner procedure results in
 
 \begin{equation}
-    U(\Lambda)\ket{k,\sigma} = \mathcal{D}_{\lambda\sigma}(R(\Lambda,k))\ket{\Lambda k,\lambda}
-\end{equation},
+    U(\Lambda)\ket{k,\sigma} = \mathcal{D}_{\lambda\sigma}(R(\Lambda,k))\ket{\Lambda k,\lambda},
+\end{equation}
 
 here $R(\Lambda,k)$ is the Wigner rotation and $\mathcal{D}$ is a three dimensional, unitary, irreducible representation of the rotation group.
 Moreover:
@@ -95,15 +94,13 @@ V has the explicit form:
         \end{pmatrix}
 \end{equation}
 
-Two inertial frames $\mathcal{O}$ and $\mathcal{O'}$ moving with velocitiy $\textbf{v}$ with respect to $\mathcal{O}$. In $\mathcal{O}$, a state is prepared
+Two inertial frames $\mathcal{O}$ and $\mathcal{O'}$ moving with velocitiy $\textbf{v}$ with respect to $\mathcal{O}$. In $\mathcal{O}$, the general state is prepared
 
 \begin{equation}
     \rho = \sum \rho_{\sigma \lambda, \sigma' \lambda'} \ket{k_m, k_n ; \sigma, \lambda} \bra{k_{m'}, k_{n'} ; \sigma', \lambda'}
 \end{equation}
 
-\begin{equation}
-    \rho' = \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right] \rho \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right]^\dagger
-\end{equation}
+The Lorentz Boost $\Lambda(\textbf{e},\xi)$ for particles moving at relativistic velocitiy. We define the rapidity $\xi = \arctan{-|\textbf{v}|}$ and the direction $\textbf{e}$ as $ \textbf{e} = \textbf{v}/|\textbf{v}|$
 
 \begin{equation}
     \Lambda(e, \xi) =
@@ -113,16 +110,28 @@ Two inertial frames $\mathcal{O}$ and $\mathcal{O'}$ moving with velocitiy $\tex
     \end{pmatrix}
 \end{equation}
 
+Observed from the moving frame $\mathds{O'}$, $U$ (cite equation) acts on the state $\rho$ and we find $\rho'$:
+
+\begin{equation}
+    \rho' = \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right] \rho \left[ U(\Lambda(e, \xi)) \otimes U(\Lambda(e, \xi)) \right]^\dagger
+\end{equation}
+
+Now we differentiate between two cases, states with pure momentum part and general states.
+
+The state $\rho$ with pure momentum part $\ket{\psi^{mom}}\bra{\psi^{mom}}$ and general spin part $p_i\ket{\phi_i^{spin}}\bra{\phi_i^{spin}}$ has the following form: 
+
 \begin{equation}
     \rho = \ket{\psi^{mom}}\bra{\psi^{mom}} \otimes (\sum_{i} p_i\ket{\phi_i^{spin}}\bra{\phi_i^{spin}}) \equiv \ket{\psi^{mom}}\bra{\psi^{mom}} \otimes \rho_{spin}
 \end{equation}
+
+Here the state $\ket{\psi^{mom}}$ is defined as:
 
 \begin{equation}
     \ket{\psi^{mom}} = \sum_{i,j=1}^{2}a_{ij}\ket{k_i,k_j}, \quad \sum_{i,j=1}^{2}|a_{ij}|^2 = 1.
 \end{equation}
 
+After boosting the state $\rho$, we find that $\rho$ has the modified form:
+
 \begin{equation}
     \rho^\prime_{spin} = \text{Tr}^{mom}(\rho^\prime) = \sum_{i,j=1}^{2}|a_{ij}|[D^T(\Lambda,k_i) \otimes D^T(\Lambda,k_j)]\rho_{spin}[D^*(\Lambda,k_i) \otimes D^*(\Lambda,k_j)]
 \end{equation}
-
-Lorentz Boost

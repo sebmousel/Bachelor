@@ -2,10 +2,11 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
 \contentsline {chapter}{\numberline {2}Theory}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Quantum States}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Bipartite States}{3}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Magic simplex}{4}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Lorentz Boost}{4}{section.2.4}%
+\contentsline {section}{\numberline {2.1}Separability and Entanglement}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}PPT criterion}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Realignment criterion}{3}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Magic simplex}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Quantum States under Lorentz Boost}{4}{section.2.3}%
 \contentsline {chapter}{\numberline {3}Methods}{7}{chapter.3}%
 \contentsline {chapter}{\numberline {4}Results}{9}{chapter.4}%
 \contentsline {chapter}{\numberline {5}Discussion}{11}{chapter.5}%

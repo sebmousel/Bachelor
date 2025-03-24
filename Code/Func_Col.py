@@ -5,6 +5,7 @@ from scipy.linalg import svd
 #partial transpose of 9x9 density matrix
 
 def parttran(matrix, subsystem_dim = 3):
+
     return matrix.reshape(3,3,3,3).transpose(0,2,1,3).transpose(0,1,3,2).transpose(0,2,1,3).reshape(9,9)
 
 
@@ -17,28 +18,17 @@ def is_PPT(matrix, subsystem_dims = 3):
     # Compute the eigenvalues of the partially transposed matrix
     eigenvalues = la.eigvalsh(rho_partial_transpose)
     
-    # If any eigenvalue is negative, the state is entangled
-    if np.any(eigenvalues < 0):
-        return True  # Entangled
-    else:
-        return False  # Separable (Free)
+    # If all eigenvalues are negative, the state is PPT
+    return np.all(eigenvalues >= 0)
     
 
-#to find trace, use np.trace
-
-def purity(matrix):
-    return np.trace(np.matmul(matrix, matrix))
-
-
-#get dimension
+#return dimension of matrix
 
 def get_dim(matrix):
     return np.shape(matrix)
 
 
-#get realignment criterion
-#
-#create blocks from a matrix
+#divide matrix into blocks
 
 def blck(matrix,blocksize = 3):
     if matrix is None:
@@ -76,7 +66,7 @@ def realign(matrix, blocksize = 3):
     return newblocks.reshape((9,9))
 
 
-#get singular values
+#get singular values of matrix
 
 def SVD(matrix):
     bl = realign(matrix)
@@ -109,27 +99,20 @@ def nrm(vector):
 
 #construction of bell states
 
-#define indices martix for state rho_b
+#define indices martix for state rho_b and omega
 
 omega = np.exp(2j * np.pi / 3)
 
 def generate_bell_states():
-    """
-    Generate all nine Bell states |Ω_k,l⟩ using the Weyl operators.
-    Returns a list of |Ω_k,l⟩ states as 1D arrays.
-    """
-    basis = np.eye(3)  # Standard computational basis
-    omega_states = []  # Store |Ω_k,l⟩ states
+    basis = np.eye(3)
+    omega_states = []
 
     for k in range(3):
         for l in range(3):
-            # Construct W_k,l operator
             W_k_l = np.sum([
                 omega ** (j * k) * np.outer(basis[j], basis[(j + l) % 3]) for j in range(3)
             ], axis=0)
-            # Define |Ω_0,0⟩ = (|00⟩ + |11⟩ + |22⟩) / sqrt(3)
             omega_0_0 = np.array([1, 0, 0, 0, 1, 0, 0, 0, 1]) / np.sqrt(3)
-            # Generate |Ω_k,l⟩ from |Ω_0,0⟩
             omega_k_l = np.dot(np.kron(W_k_l, np.eye(3)), omega_0_0)
             omega_states.append(nrm(omega_k_l))
     return omega_states
@@ -152,8 +135,23 @@ def rhob(x, bell_states):
     )
     return rho_b
 
+def rho2(bell_states):
 
-#define Lorentz boost function to get particle in rest frame to frame O
+    a_matrix = np.array([
+        [0,2/9,2/9],
+        [0,2/9,2/9],
+        [5/18,0,0]
+    ])
+
+    rho_2 = sum(
+        a_matrix[k,l] * np.outer(bell_states[k * 3 + l], bell_states[k * 3 + l].conj())
+        for k in range(3)
+        for l in range(3)
+    )
+    return rho_2
+
+
+#define Lorentz boost function to get particle in rest frame to frame O and matrix V
 
 V = np.array([
         [-1, 1j, 0] / np.sqrt(2),
@@ -184,7 +182,6 @@ def lorentz_boost_k(momentum, mass = 1, energy = 1):
 
 def lam_boost(e, xi):
     
-    # Ensure e is a numpy array and normalize it to be a unit vector
     e = np.asarray(e, dtype=float)
     e = e / np.linalg.norm(e)
 
@@ -198,7 +195,6 @@ def lam_boost(e, xi):
 
     block = np.eye(3) + (cosh_xi - 1) * outer_product
 
-    # Assemble the full Lorentz boost matrix
     boost_matrix = np.zeros((4, 4))
     boost_matrix[0, 0] = cosh_xi
     boost_matrix[0, 1:] = e * sinh_xi
@@ -245,13 +241,14 @@ def boosted_state1(e, xi, mom1, mom2,n):
 def realign_val_12_21(e, xi, mom1, mom2):
 
     val = []
+    PPT = []
 
     for n in np.linspace(0, 1/3 , 1000):
         
         sum = boosted_state1(e,xi,mom1,mom2,n)
         val.append(realign_log(sum/np.trace(sum)))
-    
-    return val
+        PPT.append(is_PPT(sum))
+    return val,PPT
 
 
 #define values for values of realignment with momenta entanglement dependant of theta version 2
@@ -310,16 +307,9 @@ def realign_general(e,xi,mom1,mom2,rho1,rho2,theta1,theta2,p):
     
     for i,j in [(1,2),(2,1)]:
             if (i,j) == (1,2):
-                sum2 += np.cos(theta2)**2 * np.matmul(
-                        np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho2,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
-            else:
-                sum1 += np.sin(theta2)**2 * np.matmul(
+                sum2 += np.matmul(
                         np.kron(Dmat[i].T,Dmat[j].T),np.matmul(rho2,np.kron(Dmat[i].conj().T,Dmat[j].conj().T)))
 
     sum = p*sum1 + (1-p)*sum2
     
-    return (realign_log(sum/np.trace(sum)), is_PPT(sum))
-
-
-#define reduction criterion
-
+    return realign_log(sum/np.trace(sum)), is_PPT(sum/np.trace(sum)), sum

@@ -1,0 +1,64 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{horodecki1998mixed}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a7ab95b1e63182a7e96f8a2b8d549d6e}{%
+           family={Horodecki},
+           familyi={H\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=59d54f92652a955a7e17ee7136b4d355}{%
+           family={Horodecki},
+           familyi={H\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=4634c94941468b2f650d5fac224f141b}{%
+           family={Horodecki},
+           familyi={H\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{9a57b1181e8560cd4dabc9c135e5cb31}
+      \strng{fullhash}{f789866572822a53cad56a62ba37ada3}
+      \strng{bibnamehash}{f789866572822a53cad56a62ba37ada3}
+      \strng{authorbibnamehash}{f789866572822a53cad56a62ba37ada3}
+      \strng{authornamehash}{9a57b1181e8560cd4dabc9c135e5cb31}
+      \strng{authorfullhash}{f789866572822a53cad56a62ba37ada3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Phys. Rev. Lett.}
+      \field{number}{20}
+      \field{title}{Mixed-state entanglement and distillation: Is there a "bound" entanglement in Nature?}
+      \field{volume}{80}
+      \field{year}{1998}
+      \field{pages}{5239}
+      \range{pages}{1}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

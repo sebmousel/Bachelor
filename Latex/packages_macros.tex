@@ -2,10 +2,17 @@
 
 %Package to show algorithms
 \usepackage{algorithm2e}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{bibliography.bib}
 
 %Package for unity 1
 \usepackage{bbold}
 \usepackage{dsfont}
+
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
 
 %Package to write brakets
 \usepackage{mathtools}
@@ -43,11 +50,13 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codered}{RGB}{255, 0, 0}
 
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{backcolour},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
+    keywordstyle=[2]\color{codered},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
@@ -60,7 +69,8 @@
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,                  
-    tabsize=2
+    tabsize=2,
+    inputencoding=utf8
 }
 
 \lstset{style=mystyle}

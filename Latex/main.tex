@@ -14,7 +14,6 @@
 
 \usepackage[ngerman, british]{babel} %if changed to \usepackage[ngerman]{babel} "Table of contents" changes to "Inhaltsverzeichnis", "abstract" becomes "Zusammenfassung" and "references" is translated to "Literatur".
 
-
 %remove all the things you don't need and add all the things you need. you can also change the order of the elements at your will.
 \begin{document}
 
@@ -32,9 +31,9 @@
 	\input{A) Front Matter/acknowledgements}%adds the aknowledgements
 	\input{A) Front Matter/abstracts} % adds the abstract
 	\input{A) Front Matter/kurzfassung} %adds the "Kurzfassung"in german.
-%	\endgroup
+    	%\endgroup
     \microtypesetup{protrusion=false}
-    \tableofcontents{}
+    \tableofcontents
     % Use an optional list of tables / figures / algorithms / listings(code).
     %\listoftables 
     %\listoffigures
@@ -58,9 +57,9 @@
     \input{B) Chapters/Conclusion.tex}
     
 	%add your sources in the bib file and change the style here
-    \bibliographystyle{IEEEtran}
-	\bibliography{bibliography}
-	
+    %\bibliographystyle{ieeetran}
+	%\bibliography{bibliography}
+
 	\printglossary[type=\acronymtype]
     \printglossary
 
@@ -71,7 +70,7 @@
 	\appendix{}
 
 	\input{C) Back Matter/appendix}
-	
-	
-	
+
+    \printbibliography[title=References]
+    	
 \end{document}

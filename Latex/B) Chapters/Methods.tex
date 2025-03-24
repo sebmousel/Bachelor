@@ -1,2 +1,74 @@
 \chapter{Methods}
 
+\section{Implementing Code}
+
+As mentioned, all calculations are computed with the programming language Python within Virtual Studio Code.
+To run the code, the libraries numpy, scipy.linalg and matplotlib are used.
+
+First off, the partial transpose operation was defined with the help of the function np.transpose().
+(insert pic of line)\\
+Then the function is\_PPT() uses the \verb|partial_transpose()| and the scipy.linalg function eigenvalsh() to find the eigenvalues
+that are then checked for non-positive values.
+(insert function)\\
+To compute the realignement criterion, we use the realign() function that returns the realigned matrix. SVD() returns the singular values of said matrix.
+Finally, ralign\_log() calculates the $\log_2$ of the sum of the found singular values. This is then evaluated in realign\_crit().
+
+generate\_bell\_states() gives us the Bell states a bipartite system of qutrits and rhob() defines the state $\rho_b$ used in this work.
+
+Then lorentz\_boost\_k() and lam\_boost() respectively define the Lorentz boosts $L_k$ and $\Lambda(\textbf{e},\xi)$.\\
+wigner() returns the Wigner rotation and D() the three dimensional, unitary, irreducible representation of the rotation group.??\\
+
+The functions boosted\_state1() and boosted\_state2() both compute the state after the Lorentz boost. While boosted\_state1() only considers the state in the form
+$\ket{\psi_1^{mom}} = \frac{1}{\sqrt{2}}(\ket{k_1,k_2} + \ket{k_2,k_1})$, boosted\_state() considers the generalized case $\ket{\psi_2^{mom}} = \cos{\theta}\ket{k_1,k_2} + \sin{theta}\ket{k_2,k_1}$
+
+To find the values for the realignment criterion, we use realign\_val\_12\_21() with boosted\_state1() and realign\_val\_theta2() with boosted\_state2().
+
+The function realign\_general() is used for the general state case p*sum1 + (1-p)*sum2.\cite{horodecki1998mixed}\cite{hiesmayr2024bipartite}
+
+\lstinputlisting[language=Python]{../Code/Func_Col.py}
+
+%talk about reproducing results
+To reproduce the result from the paper, we simply use the function \verb|realign_val_21_12(e,xi,mom1,mom2)|.
+This function takes the direction $e$, the rapitidity $xi$, and momenta $mom1$ and $mom2$. Then it calculates 1000
+values of realignment in the interval 0 to $\frac{1}{3}$. It uses \verb|boosted_state1| defined by cite equation to boost
+the state $\rho_b$, \verb|realign_log| to calculate the realignment (cite equation) and \verb|is_PPT| to check if the matrix 
+satisfies the PPT criterion. This is then plotted using the following code: insert code
+
+%expand upon these results
+Now we consider the case where the probability to find the momenta of the 2 particles isn't equal. To do this, lets make the probability
+dependant of $\theta$, so that finding the momenta in state $ket{k_1,k_2}$ has a probability of $\cos{\theta}$ and in state $\ket{k_2,k_1}$
+a probability of $\sin{\theta}$. The whole state can be written as:
+
+\begin{equation}
+    \ket{\Psi_mom} = \cos{\theta}*\ket{k_1,k_2} + \sin{\theta}*\ket{k_2,k_1}
+\end{equation}
+
+\verb|boosted_state2| takes the additional argument \verb|theta|, in comparison to \verb|boosted_state1| and iterates through 1000 states from 
+the x value 0 to $\frac{1}{3}$ which has the same procedure as \verb|boosted_state1| with the additional argument \verb|theta|. Then 
+\verb|realign_val_theta2| calculates the realignment for each state. This is plotted using this code: insert code.
+
+To explore the behaviour of bound entangled states, we compute the states boosted in different direction. The direction will be denoted in the form
+\verb|[x,y,z]|. For example, [1,0,0] stands for a boost in x direction. This will be done for [1,0,0],[0,1,0],[1,1,1],[1,1,0],[1,0,1],[0,1,1]. 
+Again, using \verb|realign_val_12_21| and by iterating through all direction, we find values for the realignment and check the PPT criterion. Then 
+the values are plotted using the following code: insert code.
+
+Lastly, when considering the general state, we generate the state $\rho_2$ that is defined as:
+
+\begin{equation}
+    \rho_2 = \ket{k_1,k_2}\bra{k_1,k_2} \otimes \ket{\Phi_{spin}}\bra{\Phi_{spin}}
+\end{equation} with
+
+\begin{equation}
+    \ket{\Phi_{spin}} = \sum_{k,l=0}^{2} a_{k,l}\ket{\Omega_{k,l}}
+\end{equation} and
+
+\begin{equation}
+    a_{k,l} =\begin{pmatrix}
+            0 & 2/9 & 2/9 \\
+            0 & 2/9 & 1/18 \\
+            5/18 & 0 & 0 
+            \end{pmatrix}
+\end{equation}
+
+Then \verb|realign_general| computes the respective boost and returns the values for the realignment and checks PPT criterion.
+This is plotted using the following code: insert code
